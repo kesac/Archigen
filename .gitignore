@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Archigen/.vs/Archigen/v16
+/Archigen/Archigen/bin
+/Archigen/Archigen/obj
+/Archigen/Archigen.Example/bin
+/Archigen/Archigen.Example/obj
