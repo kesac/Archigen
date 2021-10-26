@@ -17,7 +17,7 @@ namespace Archigen
 
         public Generator<T> ForProperty<U>(Expression<Func<T, U>> expression, IGenerator<U> generator)
         {
-            var type = generator.GetType();
+            var type = typeof(IGenerator<U>);
             var next = type.GetMethod("Next");
 
             var memberExpression = (MemberExpression) expression.Body;
