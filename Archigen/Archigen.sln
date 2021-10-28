@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archigen", "Archigen\Archigen.csproj", "{C04E0C13-120C-4A7E-87C8-5AF8198D29FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archigen", "Archigen\Archigen.csproj", "{C04E0C13-120C-4A7E-87C8-5AF8198D29FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archigen.Example", "Archigen.Example\Archigen.Example.csproj", "{4F72A841-2B84-43C4-80EF-08C14D35FBFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archigen.Example", "Archigen.Example\Archigen.Example.csproj", "{4F72A841-2B84-43C4-80EF-08C14D35FBFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archigen.Tests", "Archigen.Tests\Archigen.Tests.csproj", "{B5AB6149-F642-4EE3-A2A4-221685592484}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4F72A841-2B84-43C4-80EF-08C14D35FBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F72A841-2B84-43C4-80EF-08C14D35FBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F72A841-2B84-43C4-80EF-08C14D35FBFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5AB6149-F642-4EE3-A2A4-221685592484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5AB6149-F642-4EE3-A2A4-221685592484}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5AB6149-F642-4EE3-A2A4-221685592484}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5AB6149-F642-4EE3-A2A4-221685592484}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
