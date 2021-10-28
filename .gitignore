@@ -8,3 +8,6 @@
 /Archigen/Archigen/obj
 /Archigen/Archigen.Example/bin
 /Archigen/Archigen.Example/obj
+/Archigen/Archigen.Tests/bin/Debug/net5.0
+/Archigen/Archigen.Tests/obj
+/Archigen/.vs/Archigen/DesignTimeBuild
