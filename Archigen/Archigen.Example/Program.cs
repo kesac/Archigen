@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Syllabore;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Archigen.Example
 {
@@ -19,24 +22,28 @@ namespace Archigen.Example
         }
     }
 
-    public class UserGenerator : IGenerator<User>
-    {
-        public User Next()
-        {
-            return new User() { FirstName = "John", LastName = "Smith", Age = 9001 };
-        }
-    }
-
     public class User
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-        public User Partner { get; set; }
+        public List<User> Friends { get; set; }
+
+        public User() { this.Friends = new List<User>(); }
 
         public override string ToString()
         {
-            return FirstName + " " + LastName + " " + Age + " " + Partner?.ToString();
+            var result = new StringBuilder();
+
+            result.Append(FirstName + " " + LastName + " , age: " + Age + ", total friends: " + Friends.Count);
+
+            foreach(var friend in Friends)
+            {
+                result.AppendLine();
+                result.Append(friend.ToString());
+            }
+
+            return result.ToString();
         }
 
     }
@@ -45,11 +52,18 @@ namespace Archigen.Example
     {
         public static void Main(string[] args)
         {
+
+            var names = new NameGenerator();
+
             var g = new Generator<User>()
-                    .ForProperty<string>(x => x.FirstName, new StringGenerator())
-                    .ForProperty<string>(x => x.LastName, new StringGenerator())
+                    .ForProperty<string>(x => x.FirstName, names)
+                    .ForProperty<string>(x => x.FirstName, names)
+                    .ForProperty<string>(x => x.LastName, names)
                     .ForProperty<int>(x => x.Age, new NumberGenerator())
-                    .ForProperty<User>(x => x.Partner, new UserGenerator());
+                    .ForListProperty<User>(x => x.Friends, new Generator<User>()
+                        .ForProperty<string>(x => x.FirstName, names)
+                        .ForProperty<string>(x => x.LastName, names))
+                        .UsingSize(2);
 
             for(int i = 0; i < 10; i++)
             {
