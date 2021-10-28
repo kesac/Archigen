@@ -31,10 +31,10 @@ namespace Archigen
         public Generator<T> ForProperty<U>(Expression<Func<T, U>> expression, IGenerator<U> generator)
         {
             var type = typeof(IGenerator<U>);
-            var memberExpression = (MemberExpression) expression.Body;
-            var property = (PropertyInfo) memberExpression.Member;
+            var memberExpression = expression.Body as MemberExpression;
+            var property = memberExpression?.Member as PropertyInfo;
 
-            this.PropertyGenerators.Add(property.Name, new GeneratorInfo(generator, type));
+            this.PropertyGenerators[property.Name] = new GeneratorInfo(generator, type);
             this.LastPropertyDefined = property.Name;
             return this;
         }
@@ -53,10 +53,10 @@ namespace Archigen
             var gi = new GeneratorInfo(new Generator<List<U>>(), parentType);
             gi.ChildItemGenerator = new GeneratorInfo(generator, childType);
 
-            var memberExpresion = (MemberExpression)expression.Body;
-            var property = (PropertyInfo)memberExpresion.Member;
+            var memberExpresion = expression.Body as MemberExpression;
+            var property = memberExpresion?.Member as PropertyInfo;
 
-            this.PropertyGenerators.Add(property.Name, gi);
+            this.PropertyGenerators[property.Name] = gi;
             this.LastPropertyDefined = property.Name;
             return this;
         }
@@ -67,7 +67,7 @@ namespace Archigen
         /// </summary>
         public Generator<T> UsingSize(int size)
         {
-            if(this.LastPropertyDefined != null)
+            if(this.LastPropertyDefined != null && this.PropertyGenerators[this.LastPropertyDefined].ChildItemGenerator != null)
             {
                 this.PropertyGenerators[this.LastPropertyDefined].ChildItemGenerator.Size = size;
             }
