@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.9.2-alpha</Version>
+    <Version>0.9.3-alpha</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/kesac/Archigen</PackageProjectUrl>
@@ -10,7 +10,7 @@
     <Authors>Kevin Sacro</Authors>
     <Company />
     <Product />
-    <FileVersion>0.9.2.0</FileVersion>
+    <FileVersion>0.9.3.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
