@@ -1,4 +1,6 @@
 ## Archigen
+[![Nuget](https://img.shields.io/nuget/v/Archigen)](https://www.nuget.org/packages/Archigen/)
+
 Archigen is a tiny class library for making other procedural generation libraries or programs easier to integrate with each other. It provides two things:
 * An `IGenerator<T>` interface for content-generating classes to implement
 * A `Generator<T>` class for chaining instances of `IGenerator<T>` together
