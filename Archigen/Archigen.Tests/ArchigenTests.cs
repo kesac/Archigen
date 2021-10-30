@@ -21,16 +21,21 @@ namespace Archigen.Tests
 
         public int Next()
         {
-            return this.Random.Next(100) + 1;
+            return this.Random.Next(10) + 1;
         }
     }
 
-    // A POCO for testing
     public class Character
     {
         public string Name { get; set; }
         public int Level { get; set; }
         public List<Ability> Abilities{ get; set; }
+
+        public Character()
+        {
+            this.Abilities = new List<Ability>();
+        }
+
     }
 
     public class Ability
@@ -65,7 +70,13 @@ namespace Archigen.Tests
             Ability ability = abilityGenerator.Next();
             Assert.IsNotNull(ability);
             Assert.IsNull(ability.Name);
+
+            var characterGenerator = new Generator<Character>();
+            var c = characterGenerator.Next();
+
+            Assert.IsNotNull(c.Abilities);
         }
+
 
         [TestMethod]
         public void Generator_CanAssignProperties()
@@ -102,15 +113,21 @@ namespace Archigen.Tests
                         .ForProperty<string>(x => x.Name, names))
                         .UsingSize(10);
 
-            var character = g.Next();
-            Assert.IsNotNull(character.Name);
-            Assert.IsTrue(character.Level > 0 && character.Level <= 100);
-            Assert.IsTrue(character.Abilities.Count == 10);
-
-            foreach(var ability in character.Abilities)
+            for (int i = 0; i < 1000; i++)
             {
-                Assert.IsNotNull(ability.Name);
+                var character = g.Next();
+                Assert.IsTrue(string.IsNullOrEmpty(character.Name));
+                Assert.IsTrue(character.Level > 0 && character.Level <= 10);
+                Assert.IsTrue(character.Abilities.Count == 10);
+
+                foreach (var ability in character.Abilities)
+                {
+                    Assert.IsNotNull(ability.Name);
+                }
+
             }
+
+            
 
         }
 
