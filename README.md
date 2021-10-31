@@ -27,9 +27,9 @@ Providing you already made a custom name generation class that implements `IGene
 
 ```C#
 var g = new Generator<Team>()
-        .ForProperty(x => x.TeamName, new NameGenerator())
-        .ForListProperty(x => x.Players, new Generator<Player>()
-            .ForProperty(x => x.PlayerName, new NameGenerator()))
+        .ForProperty<string>(x => x.TeamName, new NameGenerator())
+        .ForListProperty<Player>(x => x.Players, new Generator<Player>()
+            .ForProperty<string>(x => x.PlayerName, new NameGenerator()))
         .UsingSize(10);
 ```
 
