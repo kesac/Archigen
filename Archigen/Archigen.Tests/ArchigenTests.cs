@@ -116,7 +116,7 @@ namespace Archigen.Tests
             for (int i = 0; i < 1000; i++)
             {
                 var character = g.Next();
-                Assert.IsTrue(string.IsNullOrEmpty(character.Name));
+                Assert.IsFalse(string.IsNullOrEmpty(character.Name));
                 Assert.IsTrue(character.Level > 0 && character.Level <= 10);
                 Assert.IsTrue(character.Abilities.Count == 10);
 
