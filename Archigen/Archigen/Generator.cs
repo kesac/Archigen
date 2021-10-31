@@ -40,6 +40,15 @@ namespace Archigen
         }
 
         /// <summary>
+        /// Assigns a constant value to the specified property of <c>T</c>. When new instances of <c>T</c>
+        /// are generated, this specific property will always be the same value.
+        /// </summary>
+        public Generator<T> ForProperty<U>(Expression<Func<T, U>> expression, U constant)
+        {
+            return this.ForProperty<U>(expression, new ConstantGenerator<U>(constant));
+        }
+
+        /// <summary>
         /// Assigns a generator for a specified List property of <c>T</c>. When new instances of <c>T</c>
         /// are instantiated through calls to <c>Next()</c>, the List property is first instantiated as a 
         /// generic List of type <c>U</c>, then elements in the list are instantiated with the supplied
@@ -80,7 +89,7 @@ namespace Archigen
         /// those properties will have random values as provided by their associated
         /// generator.
         /// </summary>
-        public T Next()
+        public virtual T Next()
         {
             var result = new T();
             var type = result.GetType();

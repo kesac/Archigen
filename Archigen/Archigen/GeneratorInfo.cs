@@ -13,19 +13,19 @@ namespace Archigen
     public class GeneratorInfo
     {
         public IGenerator Generator { get; set; }
-        public MethodInfo Next { get; set; }
+        public Type Type { get; set; }
         public GeneratorInfo ChildItemGenerator { get; set; }
         public int? Size { get; set; }
 
         public GeneratorInfo(IGenerator g, Type type)
         {
             this.Generator = g;
-            this.Next = type.GetMethod("Next");
+            this.Type = type;
         }
 
         public object Invoke()
         {
-            return this.Next.Invoke(this.Generator, null);
+            return this.Type.GetMethod("Next").Invoke(this.Generator, null);
         }
 
     }
