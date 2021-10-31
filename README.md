@@ -1,7 +1,7 @@
 ## Archigen
 [![Nuget](https://img.shields.io/nuget/v/Archigen)](https://www.nuget.org/packages/Archigen/)
 
-Archigen is a tiny class library for making other procedural generation libraries or programs easier to integrate with each other. It provides two things:
+Archigen is a tiny class library for integrating other procedural generation libraries and programs together. It provides two things:
 * An `IGenerator<T>` interface for content-generating classes to implement
 * A `Generator<T>` class for chaining instances of `IGenerator<T>` together
 
@@ -13,13 +13,13 @@ Say you have a couple classes you want to randomly generate instances of togethe
 ```C#
 public class Team
 {
-    public string Name { get; set; }
+    public string TeamName { get; set; }
     public List<Players> Players { get; set; }
 }
 
 public class Player
 {
-    public string Name { get; set; }
+    public string PlayerName { get; set; }
 }
 ```
 
@@ -27,17 +27,20 @@ Providing you already made a custom name generation class that implements `IGene
 
 ```C#
 var g = new Generator<Team>()
-        .ForProperty(x => x.Name, new NameGenerator())
+        .ForProperty(x => x.TeamName, new NameGenerator())
         .ForListProperty(x => x.Players, new Generator<Player>()
-            .ForProperty(x => x.Name, new NameGenerator()))
+            .ForProperty(x => x.PlayerName, new NameGenerator()))
         .UsingSize(10);
 ```
 
-Then you'll be able to randomly generate teams of 10 players like so:
+Then you'll be able to randomly generate teams of players like so:
 
 ```C#
 var team = g.Next(); 
 ```
+Each generated `Team` will have its `TeamName` property populated, the `Players` property instantiated to a List of type `Player`, and 10 randomly generated `Players` list added to that list. Additionally, each generated `Player` will also have their `PlayerName` property populated.
+
+
 ## Installation
 Archigen is available as a NuGet package. You can install it from your [NuGet package manager in Visual Studio](https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio) or by running the following command in your NuGet package manager console:
 ```
