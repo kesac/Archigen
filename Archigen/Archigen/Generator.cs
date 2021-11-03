@@ -17,10 +17,12 @@ namespace Archigen
     {
         private string LastPropertyDefined { get; set; }
         public Dictionary<string, GeneratorInfo> PropertyGenerators { get; set; }
+        public List<Action<T>> PostGenerationActions { get; set; }
 
         public Generator()
         {
             this.PropertyGenerators = new Dictionary<string, GeneratorInfo>();
+            this.PostGenerationActions = new List<Action<T>>();
         }
 
         /// <summary>
@@ -84,6 +86,18 @@ namespace Archigen
         }
 
         /// <summary>
+        /// Runs the specified action for each generated object of type <c>T</c>
+        /// just before it is returned via <see cref="Next()"/>.
+        /// In other words, the action is executed only after all other
+        /// property-specific sub-generators have finished running.
+        /// </summary>
+        public Generator<T> ForEach(Action<T> action)
+        {
+            this.PostGenerationActions.Add(action);
+            return this;
+        }
+
+        /// <summary>
         /// Returns a new random instance of <c>T</c>. If this generator
         /// also has generators defined for the properties of <c>T</c>, then
         /// those properties will have random values as provided by their associated
@@ -110,6 +124,11 @@ namespace Archigen
                     }
                 }
 
+            }
+
+            foreach(var action in this.PostGenerationActions)
+            {
+                action(result);
             }
 
             return result;

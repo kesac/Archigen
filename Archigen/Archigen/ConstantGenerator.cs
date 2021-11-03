@@ -5,9 +5,9 @@ using System.Text;
 namespace Archigen
 {
     /// <summary>
-    /// This is a convience class to be used <see cref="Generator{T}"/>
-    /// when you are generating a complex object and a specific property
-    /// needs to be the same value across the entire output space.
+    /// This is a convience class used by <see cref="Generator{T}"/>
+    /// when generating a complex object that requires a specific property
+    /// to be a constant value across the entire output space.
     /// </summary>
     public class ConstantGenerator<T> : IGenerator<T>
     {
