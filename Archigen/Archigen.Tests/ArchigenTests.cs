@@ -113,7 +113,9 @@ namespace Archigen.Tests
                     .ForProperty<int>(x => x.Age, 30)
                     .ForListProperty<Ability>(x => x.Abilities, new Generator<Ability>()
                         .ForProperty<string>(x => x.Name, names))
-                        .UsingSize(10);
+                        .UsingSize(10)
+                    .ForEach(x => x.Age++)
+                    .ForEach(x => x.Age++);
 
             for (int i = 0; i < 1000; i++)
             {
@@ -121,7 +123,7 @@ namespace Archigen.Tests
                 Assert.IsFalse(string.IsNullOrEmpty(character.Name));
                 Assert.IsTrue(character.Level > 0 && character.Level <= 10);
                 Assert.IsTrue(character.Abilities.Count == 10);
-                Assert.IsTrue(character.Age == 30);
+                Assert.IsTrue(character.Age == 32);
 
                 foreach (var ability in character.Abilities)
                 {
