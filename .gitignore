@@ -12,3 +12,5 @@
 /Archigen/Archigen.Tests/obj
 /Archigen/.vs/Archigen/DesignTimeBuild
 /Archigen/Archigen.Tests/bin/Release/net5.0
+/Archigen/Archigen.Examples/bin/Release/net5.0
+/Archigen/Archigen.Examples/obj

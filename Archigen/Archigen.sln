@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archigen", "Archigen\Archig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archigen.Tests", "Archigen.Tests\Archigen.Tests.csproj", "{B5AB6149-F642-4EE3-A2A4-221685592484}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archigen.Examples", "Archigen.Examples\Archigen.Examples.csproj", "{80F43C28-06BD-454F-B5FF-7336AD7186A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B5AB6149-F642-4EE3-A2A4-221685592484}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5AB6149-F642-4EE3-A2A4-221685592484}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5AB6149-F642-4EE3-A2A4-221685592484}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F43C28-06BD-454F-B5FF-7336AD7186A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F43C28-06BD-454F-B5FF-7336AD7186A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F43C28-06BD-454F-B5FF-7336AD7186A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F43C28-06BD-454F-B5FF-7336AD7186A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
