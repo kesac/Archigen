@@ -14,7 +14,7 @@ Let's say you want to generate random teams of players as described by these two
 public class Team
 {
     public string TeamName { get; set; }
-    public List<Players> Players { get; set; }
+    public List<Player> Players { get; set; }
 }
 
 public class Player
