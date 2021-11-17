@@ -1,9 +1,11 @@
 ## Archigen
 [![Nuget](https://img.shields.io/nuget/v/Archigen)](https://www.nuget.org/packages/Archigen/)
 
-Archigen is a tiny class library for integrating other procedural generation libraries and programs together. It provides two things:
+Archigen is a tiny class library for integrating other procedural generation libraries and programs together. It provides a few basic things:
 * An `IGenerator<T>` interface for content-generating classes to implement
 * A `Generator<T>` class for chaining instances of `IGenerator<T>` together
+
+In addition, a `ConditionalGenerator<T>` class is also provided when constraining generated output is necessary.
 
 ## Example
 Let's say you want to generate random teams of players as described by these two classes:
