@@ -97,6 +97,7 @@ namespace Archigen
             return this;
         }
 
+
         /// <summary>
         /// Returns a new random instance of <c>T</c>. If this generator
         /// also has generators defined for the properties of <c>T</c>, then
