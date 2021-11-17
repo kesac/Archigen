@@ -102,13 +102,17 @@ namespace Archigen.Tests
         [TestMethod]
         public void Generator_CanPopulateListProperties()
         {
+            var lookingFor = "a";
             var names = new NameGenerator();
+            var conditionalNames = new ConditionalGenerator<string>(names)
+                .WithCondition(x => x.Contains(lookingFor));
+
             var numbers = new NumberGenerator();
 
             // When using ForListProperty() we expect both the list itself
             // and the elements within the list to be instantiated.
             var g = new Generator<Character>()
-                    .ForProperty<string>(x => x.Name, names)
+                    .ForProperty<string>(x => x.Name, conditionalNames)
                     .ForProperty<int>(x => x.Level, numbers)
                     .ForProperty<int>(x => x.Age, 30)
                     .ForListProperty<Ability>(x => x.Abilities, new Generator<Ability>()
@@ -121,6 +125,7 @@ namespace Archigen.Tests
             {
                 var character = g.Next();
                 Assert.IsFalse(string.IsNullOrEmpty(character.Name));
+                Assert.IsTrue(character.Name.Contains(lookingFor));
                 Assert.IsTrue(character.Level > 0 && character.Level <= 10);
                 Assert.IsTrue(character.Abilities.Count == 10);
                 Assert.IsTrue(character.Age == 32);
@@ -131,8 +136,6 @@ namespace Archigen.Tests
                 }
 
             }
-
-            
 
         }
 
