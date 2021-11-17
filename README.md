@@ -5,8 +5,6 @@ Archigen is a tiny class library for integrating other procedural generation lib
 * An `IGenerator<T>` interface for content-generating classes to implement
 * A `Generator<T>` class for chaining instances of `IGenerator<T>` together
 
-Archigen is a dependency of [Syllabore](https://github.com/kesac/Syllabore) and [Loremaker](https://github.com/kesac/Loremaker).
-
 ## Example
 Let's say you want to generate random teams of players as described by these two classes:
 
@@ -23,42 +21,23 @@ public class Player
 }
 ```
 
-Archigen will you construct a generator for the `Team` class like so:
+Archigen will let you construct a generator for the `Team` class like so:
 
 ```C#
 var g = new Generator<Team>()
-        .ForProperty<string>(x => x.TeamName, new StringGenerator())
+        .ForProperty<string>(x => x.TeamName, new NameGenerator())
         .ForListProperty<Player>(x => x.Players, new Generator<Player>()
-            .ForProperty<string>(x => x.PlayerName, new StringGenerator()))
+            .ForProperty<string>(x => x.PlayerName, new NameGenerator()))
         .UsingSize(10);
 ```
 
-Then you'd randomly generate teams of players like so:
+And generate a new team of players every time `Next()` is called:
 
 ```C#
 var team = g.Next(); 
 ```
 
-The `StringGenerator` class used to populate `TeamName` and `PlayerName` can be anything as long as it implements the `IGenerator<string>` interface. For example, this would work:
-
-```C#
-public class StringGenerator : IGenerator<string>
-{
-    private Random Random = new Random();
-
-    public string Next()
-    {
-        var result = new StringBuilder();
-
-        for(int i = 0; i < 8; i++)
-        {
-            result.Append((char)this.Random.Next('a', 'z'));
-        }
-
-        return result.ToString();
-    }
-}
-```
+The `NameGenerator` class used to populate `TeamName` and `PlayerName` can be anything as long as it implements the `IGenerator<string>` interface and has a `Next()` method that returns a string. If you're looking for an actual name generator to use, see [Syllabore](https://github.com/kesac/Syllabore) which uses Archigen.
 
 ## Installation
 Archigen is available as a NuGet package. You can install it from your [NuGet package manager in Visual Studio](https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio) or by running the following command in your NuGet package manager console:
