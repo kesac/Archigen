@@ -15,3 +15,6 @@
 /Archigen/Archigen.Examples/bin/Release/net5.0
 /Archigen/Archigen.Examples/obj
 /Archigen/.vs
+/Archigen/Archigen.Examples/bin/Debug/net5.0
+/Archigen/Archigen.Examples/bin/Debug/net8.0
+/Archigen/Archigen.Tests/bin/Debug/net8.0
