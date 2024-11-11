@@ -1,52 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Archigen;
 
 namespace Archigen.Examples
 {
-    /// <summary>
-    /// A random string generator.
-    /// </summary>
-    public class StringGenerator : IGenerator<string>
-    {
-        private Random Random = new Random();
-
-        public string Next()
-        {
-            var result = new StringBuilder();
-
-            for(int i = 0; i < 8; i++)
-            {
-                result.Append((char)this.Random.Next('a', 'z'));
-            }
-
-            return result.ToString();
-        }
-    }
-
-    /// <summary>
-    /// Really basic POCO
-    /// </summary>
-    public class Team
-    {
-        public string TeamName { get; set; }
-        public List<Player> Players { get; set; }
-        public override string ToString() => this.TeamName;
-
-    }
-
-    /// <summary>
-    /// Nested POCO
-    /// </summary>
-    public class Player
-    {
-        public string PlayerName { get; set; }
-
-        public override string ToString() => this.PlayerName;
-
-    }
 
     /// <summary>
     /// Generates random teams with full
@@ -57,7 +14,7 @@ namespace Archigen.Examples
         public static void Main(string[] args)
         {
             var g = new Generator<Team>()
-                    .ForProperty<string>(x => x.TeamName, new StringGenerator())
+                    .ForProperty<string>(x => x.TeamName, "Otherworldly Constants")
                     .ForListProperty<Player>(x => x.Players, new Generator<Player>()
                         .ForProperty<string>(x => x.PlayerName, new StringGenerator()))
                     .UsingSize(10);
