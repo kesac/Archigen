@@ -12,12 +12,12 @@ namespace Archigen
     /// </summary>
     public class GeneratorInfo
     {
-        public IGenerator Generator { get; set; }
+        public object Generator { get; set; }
         public Type Type { get; set; }
         public GeneratorInfo ChildItemGenerator { get; set; }
         public int? Size { get; set; }
 
-        public GeneratorInfo(IGenerator g, Type type)
+        public GeneratorInfo(object g, Type type)
         {
             this.Generator = g;
             this.Type = type;
