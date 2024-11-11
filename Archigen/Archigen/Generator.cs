@@ -47,7 +47,7 @@ namespace Archigen
         /// </summary>
         public Generator<T> ForProperty<U>(Expression<Func<T, U>> expression, U constant)
         {
-            return this.ForProperty<U>(expression, new ConstantGenerator<U>(constant));
+            return this.ForProperty<U>(expression, new ConstantValue<U>(constant));
         }
 
         /// <summary>
