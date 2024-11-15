@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Archigen.Tests
 {
@@ -44,6 +45,12 @@ namespace Archigen.Tests
         public string Name { get; set; }
     }
 
+    public class WeightedFruit : IWeighted
+    {
+        public string Name { get; set; }
+        public int Weight { get; set; }
+    }
+
     public struct TestStruct
     {
         public int NumericValue { get; set; }
@@ -57,8 +64,8 @@ namespace Archigen.Tests
         public void Generator_CanInstantiatePrimitivesAndStructsAndObjects()
         {
             // A generator must be able to generate primitives
-            var intGenerator = new Generator<int>();
-            Assert.IsTrue(intGenerator.Next() == 0);
+            var sut = new Generator<int>();
+            Assert.IsTrue(sut.Next() == 0);
 
             // A generator must be able to generate structs
             var structGenerator = new Generator<TestStruct>();
@@ -84,19 +91,19 @@ namespace Archigen.Tests
         {
             // A blank generator should not populate any properties of the class
             // or struct it is generating
-            var abilityGenerator = new Generator<Ability>();
-            Assert.IsTrue(string.IsNullOrEmpty(abilityGenerator.Next().Name));
+            var sut = new Generator<Ability>();
+            Assert.IsTrue(string.IsNullOrEmpty(sut.Next().Name));
 
             // The name property of Ability will be populated once we declare
             // an IGenerator<string> as the generating source. Syllabore's NameGenerator()
             // class implements that interface.
-            abilityGenerator.ForProperty<string>(x => x.Name, new NameGenerator());
-            Assert.IsFalse(string.IsNullOrEmpty(abilityGenerator.Next().Name));
+            sut.ForProperty<string>(x => x.Name, new NameGenerator());
+            Assert.IsFalse(string.IsNullOrEmpty(sut.Next().Name));
 
             // Generator uses Dictionaries internally and should not throw an exceptions
             // if we redefine a property generator with a new generator
-            abilityGenerator.ForProperty<string>(x => x.Name, new NameGenerator());
-            Assert.IsFalse(string.IsNullOrEmpty(abilityGenerator.Next().Name));
+            sut.ForProperty<string>(x => x.Name, new NameGenerator());
+            Assert.IsFalse(string.IsNullOrEmpty(sut.Next().Name));
         }
 
         [TestMethod]
@@ -111,7 +118,7 @@ namespace Archigen.Tests
 
             // When using ForListProperty() we expect both the list itself
             // and the elements within the list to be instantiated.
-            var g = new Generator<Character>()
+            var sut = new Generator<Character>()
                     .ForProperty<string>(x => x.Name, conditionalNames)
                     .ForProperty<int>(x => x.Level, numbers)
                     .ForProperty<int>(x => x.Age, 30)
@@ -123,7 +130,7 @@ namespace Archigen.Tests
 
             for (int i = 0; i < 1000; i++)
             {
-                var character = g.Next();
+                var character = sut.Next();
                 Assert.IsFalse(string.IsNullOrEmpty(character.Name));
                 Assert.IsTrue(character.Name.Contains(lookingFor));
                 Assert.IsTrue(character.Level > 0 && character.Level <= 10);
@@ -134,8 +141,55 @@ namespace Archigen.Tests
                 {
                     Assert.IsNotNull(ability.Name);
                 }
-
             }
+
+        }
+
+        [TestMethod]
+        public void RandomSelector_CanSelectRandomValues()
+        {
+            var values = new List<int> { 1, 2, 3, 4, 5 };
+            var sut = new RandomSelector<int>(values);
+
+            var generatedValues = new List<int>();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                generatedValues.Add(sut.Next());
+            }
+
+            Assert.IsTrue(generatedValues.Contains(1));
+            Assert.IsTrue(generatedValues.Contains(2));
+            Assert.IsTrue(generatedValues.Contains(3));
+            Assert.IsTrue(generatedValues.Contains(4));
+            Assert.IsTrue(generatedValues.Contains(5));
+        }
+
+        [TestMethod]
+        public void WeightedSelector_CanSelectWeightedValues()
+        {
+            var values = new List<WeightedFruit>
+            {
+                new WeightedFruit { Name = "Apple", Weight = 1 },
+                new WeightedFruit { Name = "Orange", Weight = 3 },
+                new WeightedFruit { Name = "Grapes", Weight = 5 }
+            };
+
+            var sut = new WeightedSelector<WeightedFruit>(values);
+
+            var generatedValues = new List<WeightedFruit>();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                generatedValues.Add(sut.Next());
+            }
+
+            var appleCount = generatedValues.Count(x => x.Name == "Apple");
+            var orangeCount = generatedValues.Count(x => x.Name == "Orange");
+            var grapesCount = generatedValues.Count(x => x.Name == "Grapes");
+
+            Assert.IsTrue(appleCount < orangeCount);
+            Assert.IsTrue(orangeCount < grapesCount);
 
         }
 
