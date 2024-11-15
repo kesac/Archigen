@@ -19,6 +19,9 @@ namespace Archigen
         public Dictionary<string, GeneratorInfo> PropertyGenerators { get; set; }
         public List<Action<T>> PostGenerationActions { get; set; }
 
+        /// <summary>
+        /// Creates a new generator for type <c>T</c>.
+        /// </summary>
         public Generator()
         {
             this.PropertyGenerators = new Dictionary<string, GeneratorInfo>();
