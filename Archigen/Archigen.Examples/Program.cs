@@ -55,6 +55,8 @@ namespace Archigen.Examples
 
             DisplayToConsole(teamGenerator.Next()); // Still creates a team with players, but city is now provided
 
+
+
         }
 
         private static void DisplayToConsole(Team team)
