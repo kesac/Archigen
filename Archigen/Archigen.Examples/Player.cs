@@ -1,13 +1,12 @@
 ﻿namespace Archigen.Examples
 {
     /// <summary>
-    /// Nested POCO
+    /// Example player that belongs to a <see cref="Team"/>.
     /// </summary>
     public class Player
     {
-        public string PlayerName { get; set; }
-
-        public override string ToString() => this.PlayerName;
+        public string Name { get; set; }
+        public override string ToString() => this.Name;
 
     }
 }
