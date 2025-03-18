@@ -1,16 +1,11 @@
 ## Archigen
 [![Nuget](https://img.shields.io/nuget/v/Archigen)](https://www.nuget.org/packages/Archigen/)
 
-Archigen is a tiny class library for integrating other procedural generation libraries and programs together. It provides two basic things:
-* An `IGenerator<T>` interface for content-generating classes to implement
-* A `Generator<T>` class for chaining instances of `IGenerator<T>` together
+Archigen is a small class library for integrating other procedural generation libraries and programs together. It provides two basic things:
+* A `Generator<T>` class for linking procedural generators together
+* An `IGenerator<T>` interface for procedural generators to use, if they want to support chaining
 
-The library also provides a small set of convenience classes that are useful when nesting generators:
- * `ConditionalGenerator<T>` for filtering the generated output space
- * `IWeighted<T>` and `WeightedSelector<T>` for weighted-random selection from lists 
- * `RandomSelector<T>` for basic random selection
-
-## Example: Nesting Generators
+## Linking Procedural Generators
 Let's say you want to generate random teams of players as described by these classes:
 
 ```C#
@@ -42,56 +37,55 @@ This generates a new team and the players of the team every time `Next()` is cal
 var team = g.Next(); 
 ```
 
-The `NameGenerator` class used to populate `TeamName` and `PlayerName` can be anything that implements the `IGenerator<string>` interface and has a `Next()` method that returns a string. If you're looking for an actual name generator to use, see [Syllabore](https://github.com/kesac/Syllabore) which uses Archigen.
+The `NameGenerator` class used to populate `TeamName` and `PlayerName` can be anything that 
+implements the `IGenerator<string>` interface and has a `Next()` method that returns a string. 
+If you're looking for an existing name generator to use, 
+see [Syllabore](https://github.com/kesac/Syllabore) which uses Archigen.
 
-## Example: Simple Selectors
+## Random Selectors
 
-When generating a value for a nested property, you may want to simply select from a list rather than procedurally generate it. 
-Archigen provides two selectors: `WeightedSelector<T>` and `RandomSelector<T>`. Both can be nested and chained in place of other generators.
-
-### Weighted Selection
-Let's say you have a City class that implements `IWeighted`:
+Not all nested properties need to be procedurally generated. 
+Often, random selection is sufficient.
+This library provides the following for handling random selection: 
+ * `RandomSelector<T>` for basic random selection
+ * `WeightedSelector<T>` for weighted random selection (which allows some elements are selected more often than others)
+ * `IWeighted<T>` for weighted classes to use
+ 
+Let's say you have a class that describes cities:
 ```C#
-public class City : IWeighted
-{
-    public string Name { get; set; }
-    public int Population { get; set; }
-    public int Weight { get => Population; set => Population = value; }
-    
-    public City(string name, int population)
+    public class City
     {
-        Name = name;
-        Population = population;
+        public string Name { get; set; }
+    
+        public City(string name)
+        {
+            Name = name;
+        }
     }
-}
 ```
 
 You can create a weighted selector for cities like so:
 ```C#
-var cities = new City[] { 
-    new City("Astaria", 840000), 
-    new City("Belarak", 420000), 
-    new City("Crosgar", 210000) 
-};
-
-var citySelector = new WeightedSelector<City>(cities);
+var citySelector = new WeightedSelector<City>();
+citySelector.Add(new City("Astaria"), 4);
+citySelector.Add(new City("Belarak"), 2);
+citySelector.Add(new City("Crosgar"), 1);
 ```
-The `WeightedSelector<T>` can be nested and chained in place of procedural generators and return values with calls to `Next()`.
-
 In this example, `Astaria` is twice more likely to be selected than `Belarak` and four times more likely than `Crosgar`.
+
+The `WeightedSelector<T>` can be nested and added in places where any `IGenerator<City>` is expected. 
+It returns a `City` with calls to `Next()`.
+
 
 ### Random Selection
 
 If you just want to randomly select from a list of options, you can use `RandomSelector<T>`:
 
 ```C#
-var options = new string[] { "Mages", "Knights", "Dragons" };
-var teamNames = new RandomSelector<string>(options); 
+var teamNames = new RandomSelector<string>("Mages", "Knights", "Dragons"); 
 ```
 
-A `RandomSelector<T>` can be nested and chain in the place of procedural generators and return values with calls to `Next()`.
-
-
+Like its weighted variant, a `RandomSelector<T>` can be nested and used in the place of other procedural generators and return values with calls to `Next()`.
 
 
 ## Installation
