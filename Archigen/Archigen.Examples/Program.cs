@@ -25,7 +25,7 @@ namespace Archigen.Examples
 
             // Example 2:
             // Change the output space so names of generated players always the letter 'a'.
-            
+
             teamGenerator.ForListProperty<Player>(x => x.Players, new ConditionalGenerator<Player>(playerGenerator)
                 .WithCondition(player => player.Name.Contains("a")))
                 .UsingSize(5);
@@ -34,28 +34,25 @@ namespace Archigen.Examples
 
             // Example 3:
             // Change the output space again, randomizing the team name from a set list
-            var teamNames = new string[] { "Mages", "Knights", "Dragons" };
-            var randomTeamNameGenerator = new RandomSelector<string>(teamNames);
+
+            var randomTeamNameGenerator = new RandomSelector<string>("Mages", "Knights", "Dragons");
             teamGenerator.ForProperty<string>(x => x.Name, randomTeamNameGenerator);
 
             DisplayToConsole(teamGenerator.Next()); // Still creates 5 nested players, but with a random team name
 
-
             // Example 4:
             // Adjust the output space and specify a city for the team.
             // Make larger cities more likely to be selected.
-            var cities = new City[] { 
-                new City("Astaria", 840000), 
-                new City("Belarak", 420000), 
-                new City("Crosgar", 210000) 
-            };
+
+            var citySelector = new WeightedSelector<City>();
+            citySelector.Add(new City("Astaria"), 4);
+            citySelector.Add(new City("Belarak"), 2);
+            citySelector.Add(new City("Crosgar"), 1);
 
             // Astaria is 2x more likely to be selected than Belarak and 4x more likely than Crosgar
-            teamGenerator.ForProperty<City>(x => x.City, new WeightedSelector<City>(cities));
+            teamGenerator.ForProperty<City>(x => x.City, citySelector);
 
             DisplayToConsole(teamGenerator.Next()); // Still creates a team with players, but city is now provided
-
-
 
         }
 
