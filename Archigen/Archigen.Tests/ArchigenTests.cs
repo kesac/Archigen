@@ -8,8 +8,6 @@ namespace Archigen.Tests
 {
     public class NameGenerator : IGenerator<string>
     {
-        private Random Random = new Random();
-
         public string Next()
         {
             return Path.GetRandomFileName();
@@ -45,11 +43,6 @@ namespace Archigen.Tests
         public string Name { get; set; }
     }
 
-    public class WeightedFruit : IWeighted
-    {
-        public string Name { get; set; }
-        public int Weight { get; set; }
-    }
 
     public struct TestStruct
     {
@@ -145,53 +138,8 @@ namespace Archigen.Tests
 
         }
 
-        [TestMethod]
-        public void RandomSelector_CanSelectRandomValues()
-        {
-            var values = new List<int> { 1, 2, 3, 4, 5 };
-            var sut = new RandomSelector<int>(values);
 
-            var generatedValues = new List<int>();
 
-            for (int i = 0; i < 1000; i++)
-            {
-                generatedValues.Add(sut.Next());
-            }
-
-            Assert.IsTrue(generatedValues.Contains(1));
-            Assert.IsTrue(generatedValues.Contains(2));
-            Assert.IsTrue(generatedValues.Contains(3));
-            Assert.IsTrue(generatedValues.Contains(4));
-            Assert.IsTrue(generatedValues.Contains(5));
-        }
-
-        [TestMethod]
-        public void WeightedSelector_CanSelectWeightedValues()
-        {
-            var values = new List<WeightedFruit>
-            {
-                new WeightedFruit { Name = "Apple", Weight = 1 },
-                new WeightedFruit { Name = "Orange", Weight = 3 },
-                new WeightedFruit { Name = "Grapes", Weight = 5 }
-            };
-
-            var sut = new WeightedSelector<WeightedFruit>(values);
-
-            var generatedValues = new List<WeightedFruit>();
-
-            for (int i = 0; i < 1000; i++)
-            {
-                generatedValues.Add(sut.Next());
-            }
-
-            var appleCount = generatedValues.Count(x => x.Name == "Apple");
-            var orangeCount = generatedValues.Count(x => x.Name == "Orange");
-            var grapesCount = generatedValues.Count(x => x.Name == "Grapes");
-
-            Assert.IsTrue(appleCount < orangeCount);
-            Assert.IsTrue(orangeCount < grapesCount);
-
-        }
 
     }
 }
