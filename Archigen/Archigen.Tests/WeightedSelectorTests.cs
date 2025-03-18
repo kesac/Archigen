@@ -144,4 +144,28 @@ public class WeightedSelectorTests
 
     }
 
+    [TestMethod]
+    public void WeightedSelector_AddMultipleItemsWithZeroWeight_ThrowsException()
+    {
+        var sut = new WeightedSelector<string>();
+        sut.Add("Apple", 0);
+        sut.Add("Orange", 0);
+        sut.Add("Grapes", 0);
+
+        Assert.ThrowsException<InvalidOperationException>(() => sut.Next());
+
+    }
+
+    [TestMethod]
+    public void WeightedSelector_AddMultipleItemsWithNegativeWeight_ThrowsException()
+    {
+        var sut = new WeightedSelector<string>();
+        sut.Add("Apple", -1);
+        sut.Add("Orange", -2);
+        sut.Add("Grapes", -3);
+
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() => sut.Next());
+
+    }
+
 }
